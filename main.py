@@ -7,6 +7,10 @@ from views import wiki,handouts, add_article
 import sys, os, contextlib,zoneinfo
 import pandas as pd
 import datetime as dt
+import discord
+from discord import ActivityType
+from discord.ext import commands
+
 #Establishing unique session identifier
 ctx = st.runtime.scriptrunner.get_script_run_ctx()
 session_id = ctx.session_id
@@ -117,13 +121,50 @@ def navigation():
         wiki.main(wf,filter='other')
     elif route == 'handouts':
         handouts.main()
+    elif route == 'add_article':
+        if server_state.get('open') and server_state.get('editor')==session_id:
+            add_article.main(add=True)
+        else:
+            st.session_state.route = 'player_characters' ##This is not redundent. Without this line, the article will infintely reload because it will not switch from the Add Article tab properly.
+            st.write('Something was lost transitioning between pages while an article was being added. Please refresh or click on a new navigation button.')
+            st.rerun()
     else:
         # st.write('Something went wrong. The app seems to have lost your navigation input, so you have been sent back to the main page.')
         st.session_state.route = 'player_characters'
         wiki.main(wf)
 
 
-
-
 with contextlib.suppress(slss.session_info.NoSessionError):
     navigation()
+
+
+##TODO Figure out how to send data between scripts. Running both in the same script will cause discord to reload constantly and won't be fun for anyone
+##Look into sockets for this
+# with open('../tok.txt') as f:
+#     token = f.readlines()[0]
+
+
+# intents = discord.Intents.all()
+# bot = commands.Bot(command_prefix='!',intents=intents)
+# client = discord.Client(intents=intents)
+# intents.members = True
+
+
+
+# @bot.event
+# async def on_ready():
+#     print('Awaiting orders, Captain.')
+
+# guild = 675451203412295779
+# channel = bot.get_channel(956208792092176505)
+
+
+# async def test():
+#     await channel.send('Test')
+#     await print('Eh')
+# # test()
+# print('farts')
+# if st.button('Boop'):
+#     test()
+
+# bot.run(f'{token}')

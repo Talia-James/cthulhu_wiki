@@ -4,7 +4,8 @@ from utils.utils import *
 import os,sys
 import utils.utilities as utl
 from streamlit_server_state import server_state
-
+import numpy as np
+import discord
 
 
 ##Instantiating variables
@@ -182,18 +183,65 @@ def display_wiki(topic,wf,edit=False,session_id=None):
                 print('----------')
     else:
         if wf.loc[topic].category == 'pcs':
-            st.title(topic)
-            print(topic)
+            title_,edit_ = st.columns([9,1])
+            with title_:
+                st.title(topic)
+            with edit_:
+                edit = st.checkbox('Edit')
             with st.expander(label='Characteristics'):
-                attributes = attribute_df.index.tolist()
-                for attribute in attributes:
-                    val = attribute_df[topic][attribute]
-                    st.number_input(label=attribute,min_value=1,max_value=100,value=val)
+                if edit:
+                    attributes = attribute_df.index.tolist()
+                    for attribute in attributes:
+                        val = attribute_df[topic][attribute]
+                        st.number_input(label=attribute,min_value=1,max_value=100,value=val)
+                else:
+                    attributes = attribute_df.index.tolist()
+                    vals = attribute_df[topic].tolist()
+                    l_,cl_,cr_,r_=st.columns(4)
+                    indices = list(np.arange(0,int(len(attributes)),int(len(attributes)/4)))
+                    for col,i in zip([l_,cl_,cr_,r_],range(len(indices))):
+                        with col:
+                            if indices[i]!=indices[-1]:
+                                attribute_slice = attributes[indices[i]:indices[i+1]]
+                            else:
+                                attribute_slice = attributes[indices[i]:]
+                            for attribute,val in zip(attribute_slice,vals):
+                                with st.container():    
+                                    attr_,button_ = st.columns(2)
+                                    with attr_:
+                                        st.write(f'{attribute}: {val}')
+                                        # val = attribute_df[topic][attribute]
+                                        # st.write(label=attribute)
+                                    with button_:
+                                        if st.button('Roll',key=f'{attribute}-button-roll'):
+                                            print(f'Rolling {attribute} at {val}. (Would send to Data)')
             with st.expander(label='Skills'):
-                skills = skill_df.index.tolist()
-                for skill in skills:
-                    val = skill_df[topic][skill]
-                    st.number_input(label=skill,min_value=1,max_value=100,value=val)
+                if edit:
+                    skills = skill_df.index.tolist()
+                    for skill in skills:
+                        val = skill_df[topic][skill]
+                        st.number_input(label=skill,min_value=1,max_value=100,value=val)
+                else:
+                    skills = skill_df.index.tolist()
+                    vals = skill_df[topic].tolist()
+                    l_,cl_,cr_,r_=st.columns(4)
+                    indices = list(np.arange(0,int(len(skills)),int(len(skills)/4)))
+                    for col,i in zip([l_,cl_,cr_,r_],range(len(indices))):
+                        with col:
+                            if indices[i]!=indices[-1]:
+                                skill_slice = skills[indices[i]:indices[i+1]]
+                            else:
+                                skill_slice = skills[indices[i]:]
+                            for skill,val in zip(skill_slice,vals):
+                                with st.container():    
+                                    skill_,button_ = st.columns(2)
+                                    with skill_:
+                                        st.write(f'{skill}: {val}')
+                                        # val = attribute_df[topic][attribute]
+                                        # st.write(label=attribute)
+                                    with button_:
+                                        if st.button('Roll',key=f'{skill}-button-roll'):
+                                            print(f'Rolling {skill} at {val}. (Would send to Data)')
             with st.expander(label='Biographical'):
                 left_,right_=st.columns(2)
                 img_file_name = wf.loc[topic].img_path.split(',')
@@ -267,10 +315,10 @@ def display_wiki(topic,wf,edit=False,session_id=None):
                 if st.button(label='Confirm Delete',type='primary'):
                     wf.drop(topic,axis=0,inplace=True)
                     wf.to_csv('wiki.csv',encoding='utf-8',index=True)
-                    try:
-                        all_topics.remove(topic)
-                    except ValueError:
-                        print('Article removed without being added to all_topics')
+                    # try:
+                    #     all_topics.remove(topic)
+                    # except ValueError:
+                    #     print('Article removed without being added to all_topics')
                     st.rerun()
             if 'debug' in sys.argv:
                 if st.button(label='Wf flow',key='wf_flow_wiki_view'):
@@ -282,9 +330,9 @@ def main(wf,filter=None):
     #Session ID needs to be in the main loop to avoid defining the same editor for all users
     ctx = st.runtime.scriptrunner.get_script_run_ctx()
     session_id = ctx.session_id
-    if server_state.get('new_topic')!=None:
-        all_topics.append(server_state.new_topic)
-        server_state['new_topic']=None
+    # if server_state.get('new_topic')!=None:
+    #     # all_topics.append(server_state.new_topic)
+    #     server_state['new_topic']=None
     #Used to show the wiki loop is activated--this is for flow control purposes. Only shows in the terminal
     if 'show_flow' in sys.argv:
         print("Wiki Main")
