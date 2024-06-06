@@ -242,7 +242,7 @@ def display_wiki(topic,wf,edit=False,session_id=None):
                                     with button_:
                                         if st.button('Roll',key=f'{skill}-button-roll'):
                                             print(f'Rolling {skill} at {val}. (Would send to Data)')
-            with st.expander(label='Biographical'):
+            with st.expander(label='Biographical',expanded=True):
                 left_,right_=st.columns(2)
                 img_file_name = wf.loc[topic].img_path.split(',')
                 if len(img_file_name)==1:
