@@ -15,7 +15,7 @@ def get_offset(zone):
 
 sw_zone = zoneinfo.ZoneInfo(key='America/Montreal')
 with shelve.open('../discord-bot-live/vars') as f:
-    sw_time = datetime.fromtimestamp(f['star wars']).replace(tzinfo=sw_zone)
+    sw_time = datetime.fromtimestamp(f['call of cthulhu']).replace(tzinfo=sw_zone)
 
 # #Reference dataframes
 # wf = pd.read_csv('wiki.csv',encoding='utf-8',index_col='Entry')
@@ -86,6 +86,7 @@ def add_article_display(add=False):
                         merge_df.to_csv('wiki.csv',encoding='utf-8',index=True)
                         server_state['new_topic']=entry
                     server_state['open'],server_state['open_article'],server_state['editor'] = False,None,None
+                    st.rerun()
         with discard_:
             if st.button(label='Discard Changes',key='discard_widget'):
                 server_state['open'],server_state['open_article'],server_state['editor'] = False,None,None #This line has to run last in this widget--I don't know why. All loops refresh after this line.
