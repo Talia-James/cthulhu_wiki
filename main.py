@@ -7,9 +7,9 @@ from views import wiki,handouts, add_article
 import sys, os, contextlib,zoneinfo
 import pandas as pd
 import datetime as dt
-import discord
-from discord import ActivityType
-from discord.ext import commands
+#import discord
+#from discord import ActivityType
+#from discord.ext import commands
 
 #Establishing unique session identifier
 ctx = st.runtime.scriptrunner.get_script_run_ctx()
