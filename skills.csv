@@ -1,56 +1,56 @@
-﻿skill,Honey Charles,Sophie Devaux,Evan Montgomery,Angela PC,Dan Patton
-Accounting,1,1,1,1,1
+skill,Honey Charles,Sophie Devaux,Evan Montgomery,Angela PC,Dan Patton
+Accounting,1,5,1,1,1
 Animal Handling (Uncommon),1,1,1,1,1
 Anthropology,1,1,1,1,1
-Appraise,1,1,1,1,1
+Appraise,1,5,1,1,1
 Archaeology,1,1,1,1,1
-Art and Craft (Specializations),1,1,1,1,1
+Art and Craft (Specializations),1,15,1,1,1
 Artillery (Uncommon),1,1,1,1,1
-Charm,1,1,1,1,1
-Climb,1,1,1,1,1
+Charm,1,15,1,1,1
+Climb,1,20,1,1,1
 Computer Use (Modern),1,1,1,1,1
-Credit Rating,1,1,1,1,1
+Credit Rating,1,10,1,1,1
 Cthulhu Mythos,1,1,1,1,1
 Demolitions (Uncommon),1,1,1,1,1
 Disguise,1,1,1,1,1
 Diving (Uncommon),1,1,1,1,1
-Dodge,1,1,1,1,1
-Drive Auto,1,1,1,1,1
-Electrical Repair,1,1,1,1,1
+Dodge,1,60,1,1,1
+Drive Auto,1,20,1,1,1
+Electrical Repair,1,10,1,1,1
 Electronics (Modern),1,1,1,1,1
-Fast Talk,1,1,1,1,1
-Fighting (Specializations),1,1,1,1,1
-Firearms (Specializations),1,1,1,1,1
-First Aid,1,1,1,1,1
-History,1,1,1,1,1
+Fast Talk,1,5,1,1,1
+Fighting (Specializations),1,70,1,1,1
+Firearms (Specializations),1,20,1,1,1
+First Aid,1,75,1,1,1
+History,1,5,1,1,1
 Hypnosis (Uncommon),1,1,1,1,1
-Intimidate,1,1,1,1,1
-Jump,1,1,1,1,1
+Intimidate,1,15,1,1,1
+Jump,1,20,1,1,1
 Language,1,1,1,1,1
-Other (Specializations),1,1,1,1,1
-Language (Own),1,1,1,1,1
-Law,1,1,1,1,1
-Library Use,1,1,1,1,1
-Listen,1,1,1,1,1
+Other (Specializations),1,20,1,1,1
+Language (Own),1,50,1,1,1
+Law,1,5,1,1,1
+Library Use,1,20,1,1,1
+Listen,1,20,1,1,1
 Locksmith,1,1,1,1,1
 Lore (Specializations) (Uncommon),1,1,1,1,1
-Mechanical Repair,1,1,1,1,1
-Medicine,1,1,1,1,1
-Natural World,1,1,1,1,1
-Navigate,1,1,1,1,1
-Occult,1,1,1,1,1
+Mechanical Repair,1,10,1,1,1
+Medicine,1,70,1,1,1
+Natural World,1,10,1,1,1
+Navigate,1,10,1,1,1
+Occult,1,5,1,1,1
 Operate Heavy Machinery,1,1,1,1,1
-Persuade,1,1,1,1,1
+Persuade,1,10,1,1,1
 Pilot (Specializations),1,1,1,1,1
-Psychoanalysis,1,1,1,1,1
-Psychology,1,1,1,1,1
+Psychoanalysis,1,35,1,1,1
+Psychology,1,60,1,1,1
 Read Lips (Uncommon),1,1,1,1,1
-Ride,1,1,1,1,1
+Ride,1,5,1,1,1
 Science (Specializations),1,1,1,1,1
-Sleight of Hand,1,1,1,1,1
-Spot Hidden,1,1,1,1,1
-Stealth,1,1,1,1,1
+Sleight of Hand,1,10,1,1,1
+Spot Hidden,1,30,1,1,1
+Stealth,1,20,1,1,1
 Survival (Specializations),1,1,1,1,1
-Swim,1,1,1,1,1
-Throw,1,1,1,1,1
-Track,1,1,1,1,1
+Swim,1,20,1,1,1
+Throw,1,20,1,1,1
+Track,1,10,1,1,1

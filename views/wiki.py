@@ -183,62 +183,83 @@ def display_wiki(topic,wf,edit=False,session_id=None):
                 print('----------')
     else:
         if wf.loc[topic].category == 'pcs':
-            title_,edit_ = st.columns([9,1])
+            title_,save_,edit_ = st.columns([9,1,1])
             with title_:
                 st.title(topic)
             with edit_:
                 edit = st.checkbox('Edit')
-            with st.expander(label='Characteristics'):
+            # if edit:
+            #     with save_:
+            #         st.button(label='Save Changes')
+            #         for attribute in attributes:
+            #             print(st.session_state[f'{attribute}-input-field'])
+            with st.expander(label='Characteristics',expanded=True):
+                attributes = attribute_df.index.tolist()
                 if edit:
-                    attributes = attribute_df.index.tolist()
-                    for attribute in attributes:
-                        val = attribute_df[topic][attribute]
-                        st.number_input(label=attribute,min_value=1,max_value=100,value=val)
-                else:
-                    attributes = attribute_df.index.tolist()
-                    vals = attribute_df[topic].tolist()
                     l_,cl_,cr_,r_=st.columns(4)
-                    indices = list(np.arange(0,int(len(attributes)),int(len(attributes)/4)))
+                    indices = list(np.arange(0,int(len(attributes)),round(len(attributes)/4)))
                     for col,i in zip([l_,cl_,cr_,r_],range(len(indices))):
                         with col:
                             if indices[i]!=indices[-1]:
                                 attribute_slice = attributes[indices[i]:indices[i+1]]
                             else:
                                 attribute_slice = attributes[indices[i]:]
-                            for attribute,val in zip(attribute_slice,vals):
+                            for attribute in attribute_slice:
+                                with st.container():
+                                    if f'{attribute}-input-field' not in st.session_state:
+                                        st.session_state[f'{attribute}-input-field']=int(attribute_df.loc[attribute,topic])
+                                    st.number_input(label=attribute,min_value=1,max_value=100,key=f'{attribute}-input-field')
+                else:
+                    l_,cl_,cr_,r_=st.columns(4)
+                    indices = list(np.arange(0,int(len(attributes)),round(len(attributes)/4)))
+                    for col,i in zip([l_,cl_,cr_,r_],range(len(indices))):
+                        with col:
+                            if indices[i]!=indices[-1]:
+                                attribute_slice = attributes[indices[i]:indices[i+1]]
+                            else:
+                                attribute_slice = attributes[indices[i]:]
+                            for attribute in attribute_slice:
                                 with st.container():    
-                                    attr_,button_ = st.columns(2)
+                                    attr_,attr_val_,button_ = st.columns([3,1,1])
+                                    val = attribute_df.loc[attribute,topic]
                                     with attr_:
-                                        st.write(f'{attribute}: {val}')
-                                        # val = attribute_df[topic][attribute]
-                                        # st.write(label=attribute)
+                                        st.subheader(f'{attribute}:')
+                                    with attr_val_:
+                                        st.subheader(val)
                                     with button_:
                                         if st.button('Roll',key=f'{attribute}-button-roll'):
                                             print(f'Rolling {attribute} at {val}. (Would send to Data)')
-            with st.expander(label='Skills'):
+            with st.expander(label='Skills',expanded=True):
+                skills = skill_df.index.tolist()
                 if edit:
-                    skills = skill_df.index.tolist()
-                    for skill in skills:
-                        val = skill_df[topic][skill]
-                        st.number_input(label=skill,min_value=1,max_value=100,value=val)
-                else:
-                    skills = skill_df.index.tolist()
-                    vals = skill_df[topic].tolist()
                     l_,cl_,cr_,r_=st.columns(4)
-                    indices = list(np.arange(0,int(len(skills)),int(len(skills)/4)))
+                    indices = list(np.arange(0,int(len(skills)),round(len(skills)/4)))
                     for col,i in zip([l_,cl_,cr_,r_],range(len(indices))):
                         with col:
                             if indices[i]!=indices[-1]:
                                 skill_slice = skills[indices[i]:indices[i+1]]
                             else:
                                 skill_slice = skills[indices[i]:]
-                            for skill,val in zip(skill_slice,vals):
-                                with st.container():    
+                            for skill in skill_slice:
+                                with st.container():
+                                    if f'{skill}-input-field' not in st.session_state:
+                                        st.session_state[f'{skill}-input-field']=int(skill_df.loc[skill,topic])
+                                    st.number_input(label=skill,min_value=1,max_value=100,key=f'{skill}-input-field')
+                else:
+                    l_,cl_,cr_,r_=st.columns(4)
+                    indices = list(np.arange(0,int(len(skills)),round(len(skills)/4)))
+                    for col,i in zip([l_,cl_,cr_,r_],range(len(indices))):
+                        with col:
+                            if indices[i]!=indices[-1]:
+                                skill_slice = skills[indices[i]:indices[i+1]]
+                            else:
+                                skill_slice = skills[indices[i]:]
+                            for skill in skill_slice:
+                                with st.container():
+                                    val = skill_df.loc[skill,topic]    
                                     skill_,button_ = st.columns(2)
                                     with skill_:
                                         st.write(f'{skill}: {val}')
-                                        # val = attribute_df[topic][attribute]
-                                        # st.write(label=attribute)
                                     with button_:
                                         if st.button('Roll',key=f'{skill}-button-roll'):
                                             print(f'Rolling {skill} at {val}. (Would send to Data)')
@@ -271,6 +292,16 @@ def display_wiki(topic,wf,edit=False,session_id=None):
                         st.image(img_path,caption=caption)
                     else:
                         st.image(img_path)
+            if edit:
+                with save_:
+                    if st.button(label='Save Changes'):
+                        for attribute in attributes:
+                            attribute_df.loc[attribute,topic] = st.session_state[f'{attribute}-input-field']
+                        for skill in skills:
+                            skill_df.loc[skill,topic] = st.session_state[f'{skill}-input-field']
+                        attribute_df.to_csv('attributes.csv',encoding='utf-8',index=True)
+                        skill_df.to_csv('skills.csv',encoding='utf-8',index=True)
+
         else:
             if topic in img_entries:
                 st.title(topic)

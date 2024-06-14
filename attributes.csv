@@ -1,13 +1,13 @@
-﻿attribute,Honey Charles,Sophie Devaux,Evan Montgomery,Angela PC,Dan Patton
-Strength,1,1,1,1,1
-Constitution,1,1,1,1,1
-Size,1,1,1,1,1
-Dexterity,1,1,1,1,1
-Appearance,1,1,1,1,1
-Education,1,1,1,1,1
-Intelligence,1,1,1,1,1
-Power,1,1,1,1,1
+attribute,Honey Charles,Sophie Devaux,Evan Montgomery,Angela PC,Dan Patton
+Strength,1,45,1,1,1
+Constitution,1,60,1,1,1
+Size,1,45,1,1,1
+Dexterity,1,75,1,1,1
+Appearance,1,60,1,1,1
+Education,1,50,1,1,1
+Intelligence,1,50,1,1,1
+Power,1,75,1,1,1
 Luck,1,1,1,1,1
-Hit Points,1,1,1,1,1
-Magic Points,1,1,1,1,1
-Sanity,1,1,1,1,1
+Hit Points,1,10,1,1,1
+Magic Points,1,15,1,1,1
+Sanity,1,75,1,1,1
