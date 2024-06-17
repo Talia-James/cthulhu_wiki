@@ -2,10 +2,8 @@ import streamlit as st
 import pandas as pd
 from utils.utils import *
 import os,sys
-import utils.utilities as utl
 from streamlit_server_state import server_state
 import numpy as np
-import discord
 
 
 ##Instantiating variables
@@ -188,11 +186,6 @@ def display_wiki(topic,wf,edit=False,session_id=None):
                 st.title(topic)
             with edit_:
                 edit = st.checkbox('Edit')
-            # if edit:
-            #     with save_:
-            #         st.button(label='Save Changes')
-            #         for attribute in attributes:
-            #             print(st.session_state[f'{attribute}-input-field'])
             with st.expander(label='Characteristics',expanded=True):
                 attributes = attribute_df.index.tolist()
                 if edit:
@@ -208,7 +201,19 @@ def display_wiki(topic,wf,edit=False,session_id=None):
                                 with st.container():
                                     if f'{attribute}-input-field' not in st.session_state:
                                         st.session_state[f'{attribute}-input-field']=int(attribute_df.loc[attribute,topic])
-                                    st.number_input(label=attribute,min_value=1,max_value=100,key=f'{attribute}-input-field')
+                                    if min_max_dict[attribute]['derived']:
+                                        if attribute == 'Sanity':
+                                            max_value = derive(skill_df[topic],'Sanity','max')                          
+                                        else:
+                                            max_value = derive(attribute_df[topic],attribute,'max')
+                                        min_value = derive(attribute_df,attribute,'min')
+                                        if attribute_df[topic][attribute]<min_value:
+                                            attribute_df[topic][attribute]
+                                        st.number_input(label=attribute,min_value=min_value,max_value=max_value,key=f'{attribute}-input-field')
+                                    else:
+                                        if attribute_df[topic][attribute]<min_max_dict[attribute]['min']:
+                                            attribute_df[topic][attribute]=min_max_dict[attribute]['min']
+                                        st.number_input(label=attribute,min_value=min_max_dict[attribute]['min'],max_value=min_max_dict[attribute]['max'],key=f'{attribute}-input-field')
                 else:
                     l_,cl_,cr_,r_=st.columns(4)
                     indices = list(np.arange(0,int(len(attributes)),round(len(attributes)/4)))
@@ -219,16 +224,29 @@ def display_wiki(topic,wf,edit=False,session_id=None):
                             else:
                                 attribute_slice = attributes[indices[i]:]
                             for attribute in attribute_slice:
-                                with st.container():    
-                                    attr_,attr_val_,button_ = st.columns([3,1,1])
+                                with st.container():
                                     val = attribute_df.loc[attribute,topic]
-                                    with attr_:
-                                        st.subheader(f'{attribute}:')
-                                    with attr_val_:
-                                        st.subheader(val)
-                                    with button_:
-                                        if st.button('Roll',key=f'{attribute}-button-roll'):
-                                            print(f'Rolling {attribute} at {val}. (Would send to Data)')
+                                    if attribute in ['Hit Points','Magic Points']:
+                                        attr_,attr_val_,max_ = st.columns([3,1,1])
+                                        with attr_:
+                                            st.subheader(f'{attribute}:')
+                                        with attr_val_:
+                                            st.subheader(val)
+                                        if attribute == 'Hit Points':
+                                            max_val = int(attribute_df[topic][['Strength','Constitution']].sum()/10)
+                                        elif attribute == 'Magic Points':
+                                            max_val = int(attribute_df[topic].Power/5)
+                                        with max_:
+                                            st.subheader(f' / {max_val}')
+                                    else:
+                                        attr_,attr_val_,button_ = st.columns([3,1,1])
+                                        with attr_:
+                                            st.subheader(f'{attribute}:')
+                                        with attr_val_:
+                                            st.subheader(val)
+                                        with button_:
+                                            if st.button('Roll',key=f'{attribute}-button-roll'):
+                                                print(f'Rolling {attribute} at {val}. (Would send to Data)')
             with st.expander(label='Skills',expanded=True):
                 skills = skill_df.index.tolist()
                 if edit:

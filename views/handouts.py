@@ -36,7 +36,6 @@ def main():
                     new_hf = pd.DataFrame({'name':new_handout_name,'filepath':os.path.join('handouts',uploaded_file.name)},index=['name'],columns=['name','filepath'])
                     hf.reset_index(inplace=True)
                     hf = pd.merge(hf,new_hf,how='outer')
-                    print(hf)
                     hf.to_csv(hfpath,encoding='utf-8',index=False)
     with delete_:
         if st.checkbox(label='Delete Handout'):

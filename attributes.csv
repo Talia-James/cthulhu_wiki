@@ -1,12 +1,12 @@
 attribute,Honey Charles,Sophie Devaux,Evan Montgomery,Angela PC,Dan Patton
-Strength,1,45,1,1,1
-Constitution,1,60,1,1,1
-Size,1,45,1,1,1
-Dexterity,1,75,1,1,1
-Appearance,1,60,1,1,1
-Education,1,50,1,1,1
-Intelligence,1,50,1,1,1
-Power,1,75,1,1,1
+Strength,15,45,15,15,15
+Constitution,15,60,15,15,15
+Size,40,45,40,40,40
+Dexterity,15,75,15,15,15
+Appearance,15,60,15,15,15
+Education,15,50,15,15,15
+Intelligence,40,50,40,40,40
+Power,15,75,15,15,15
 Luck,1,1,1,1,1
 Hit Points,1,10,1,1,1
 Magic Points,1,15,1,1,1

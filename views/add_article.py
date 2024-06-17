@@ -3,7 +3,6 @@ import pandas as pd
 from utils.utils import *
 import os,sys, zoneinfo, shelve
 from datetime import datetime, timedelta
-import utils.utilities as utl
 from streamlit_server_state import server_state
 pd.set_option('mode.chained_assignment', None)
 
@@ -16,10 +15,6 @@ def get_offset(zone):
 sw_zone = zoneinfo.ZoneInfo(key='America/Montreal')
 with shelve.open('../discord-bot-live/vars') as f:
     sw_time = datetime.fromtimestamp(f['call of cthulhu']).replace(tzinfo=sw_zone)
-
-# #Reference dataframes
-# wf = pd.read_csv('wiki.csv',encoding='utf-8',index_col='Entry')
-# wf=wf[['body','expanded_info','img_path','caption','category','alias']]
 
 def add_article_display(add=False):
     ## The dataframe needs to be as current as possible. Keeping it outside the function makes it overwrite all new articles, only keeping the newest one.

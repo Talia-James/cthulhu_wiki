@@ -1,6 +1,5 @@
 ## Different version of the function switcher page in main.py, intended to be more of a splash page with bigger buttons--work in progress
 import streamlit as st
-import utils.utilities as utl
 from streamlit_server_state import server_state
 import streamlit_server_state as slss
 from views import wiki,handouts, add_article
