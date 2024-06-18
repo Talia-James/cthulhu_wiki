@@ -21,7 +21,7 @@ st.set_page_config(
     page_title="Echoes of the Past Wiki",
     page_icon="./figs/eldersign.png",#, actual filepath is in navbar_components in utilities.py
     layout="wide",
-    initial_sidebar_state="auto",
+    initial_sidebar_state="collapsed",
     menu_items={
     }
 )

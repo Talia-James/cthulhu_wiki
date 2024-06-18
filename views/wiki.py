@@ -15,6 +15,7 @@ if 'show_flow' in sys.argv:
 preload_df = pd.read_csv('wiki.csv',encoding='utf-8',index_col='Entry',keep_default_na=False)
 preload_df=preload_df[['body','expanded_info','img_path','caption','category','alias']]
 skill_df = pd.read_csv('skills.csv',encoding='utf-8',index_col='skill')
+success_df = pd.read_csv('successes.csv',encoding='utf-8',index_col='skill')
 attribute_df = pd.read_csv('attributes.csv',encoding='utf-8',index_col='attribute')
 #Temporary measure until the wiki.csv is totally cleaned
 variant_spellings = preload_df[['See ' in bod for bod in  preload_df.body.values.tolist()]].index.tolist()
@@ -262,7 +263,18 @@ def display_wiki(topic,wf,edit=False,session_id=None):
                                 with st.container():
                                     if f'{skill}-input-field' not in st.session_state:
                                         st.session_state[f'{skill}-input-field']=int(skill_df.loc[skill,topic])
-                                    st.number_input(label=skill,min_value=1,max_value=100,key=f'{skill}-input-field')
+                                    if min_max_dict[skill]['derived']:
+                                        if skill == 'Dodge':
+                                            min_value = derive(attribute_df[topic],skill,'min')
+                                            max_value = derive(attribute_df[topic],skill,'max')
+                                        else:
+                                            min_value,max_value=0,100
+                                            print(f'Something weird happened switching with {skill}')
+                                    else:
+                                        min_value,max_value = min_max_dict[skill]['min'],min_max_dict[skill]['max']
+                                    if skill_df.loc[skill,topic]<min_value:
+                                        skill_df.loc[skill,topic]=min_value
+                                    st.number_input(label=skill,min_value=min_value,max_value=max_value,key=f'{skill}-input-field')
                 else:
                     l_,cl_,cr_,r_=st.columns(4)
                     indices = list(np.arange(0,int(len(skills)),round(len(skills)/4)))
@@ -275,12 +287,14 @@ def display_wiki(topic,wf,edit=False,session_id=None):
                             for skill in skill_slice:
                                 with st.container():
                                     val = skill_df.loc[skill,topic]    
-                                    skill_,button_ = st.columns(2)
+                                    skill_,button_,succ_ = st.columns([3,1,1])
                                     with skill_:
                                         st.write(f'{skill}: {val}')
                                     with button_:
                                         if st.button('Roll',key=f'{skill}-button-roll'):
                                             print(f'Rolling {skill} at {val}. (Would send to Data)')
+                                    with succ_:
+                                        st.checkbox('Succeeded',value=success_df.loc[skill][topic],key=f'{skill}-succ',label_visibility='hidden')
             with st.expander(label='Biographical',expanded=True):
                 left_,right_=st.columns(2)
                 img_file_name = wf.loc[topic].img_path.split(',')
