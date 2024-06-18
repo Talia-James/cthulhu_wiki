@@ -208,7 +208,7 @@ def display_wiki(topic,wf,edit=False,session_id=None):
                                             max_value = derive(attribute_df[topic],attribute,'max')
                                         min_value = derive(attribute_df,attribute,'min')
                                         if attribute_df[topic][attribute]<min_value:
-                                            attribute_df[topic][attribute]
+                                            attribute_df[topic][attribute]=min_value
                                         st.number_input(label=attribute,min_value=min_value,max_value=max_value,key=f'{attribute}-input-field')
                                     else:
                                         if attribute_df[topic][attribute]<min_max_dict[attribute]['min']:

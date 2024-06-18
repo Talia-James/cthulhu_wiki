@@ -43,7 +43,6 @@ min_max_dict = {
 def derive(df,func,limit):
     if func == 'Hit Points':
         if limit == 'max':
-            print(df)
             val = int(df[['Size','Constitution']].sum()/10)
         elif limit == 'min':
             val = 0
