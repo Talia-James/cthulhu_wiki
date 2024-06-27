@@ -2,6 +2,7 @@ import ast, configparser
 from PIL import Image
 import streamlit as st
 import pandas as pd
+from random import randint
 
 def load_bool(bool_):
     if bool_=='True':
@@ -110,3 +111,20 @@ def derive(df,func,limit):
         elif limit == 'max':
             val = 100
     return val
+
+success_thresholds = {
+    'fumble': lambda x: (94 if x<50 else 99,100),
+    'failure':lambda x: (x,94 if x<50 else 100),
+    'success':lambda x: (int(x/2),x),
+    'hard success':lambda x: (int(x/5),int(x/2)),
+    'critical success':lambda x: (0,1)
+    }
+
+def roll(val):
+    die_result = randint(0,100)
+    calc_thresh = {key:success_thresholds[key](val) for key in success_thresholds}
+    for key in calc_thresh:
+        if calc_thresh[key][0]<die_result<=calc_thresh[key][1]:
+            result_desc = key
+    return die_result,result_desc
+        

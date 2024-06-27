@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 from utils.utils import *
-import os,sys
+import os,sys#,socket
 from streamlit_server_state import server_state
 import numpy as np
 
@@ -9,6 +9,8 @@ import numpy as np
 ##Instantiating variables
 pd.set_option('mode.chained_assignment', None)
 
+# HOST = "127.0.0.1"  # Standard loopback interface address (localhost)
+# PORT = 65432  # Port to listen on (non-privileged ports are > 1023)
 #Reference dataframes. These are used to define the lists then discarded, primary refreshing to reflect edits is done in the main wiki loop
 if 'show_flow' in sys.argv:
     print('Wiki View Load')
@@ -16,6 +18,7 @@ preload_df = pd.read_csv('wiki.csv',encoding='utf-8',index_col='Entry',keep_defa
 preload_df=preload_df[['body','expanded_info','img_path','caption','category','alias']]
 skill_df = pd.read_csv('skills.csv',encoding='utf-8',index_col='skill')
 success_df = pd.read_csv('successes.csv',encoding='utf-8',index_col='skill')
+succ_totals={f'{topic}':success_df[topic].sum() for topic in success_df.columns.tolist()}
 attribute_df = pd.read_csv('attributes.csv',encoding='utf-8',index_col='attribute')
 #Temporary measure until the wiki.csv is totally cleaned
 variant_spellings = preload_df[['See ' in bod for bod in  preload_df.body.values.tolist()]].index.tolist()
@@ -47,7 +50,18 @@ def highlight(raw_text):
         raw_text = raw_text.replace(term,f' :blue[**{term.strip()}**] ')
     return raw_text
 
-
+# def succ_bool(skill,topic):
+#     if f'{skill}-succ' not in st.session_state:
+#         st.session_state[f'{skill}-succ']=success_df.loc[skill,topic]
+#     # else:
+#     if skill=='Accounting':
+#         success_df.loc[skill,topic] = (success_df.loc[skill,topic] == False)
+#         print('---------------')
+#         print(f'{topic}: {skill}')
+#         print(f'df: {success_df.loc[skill,topic]}')
+#         print(f'ss: {st.session_state[f'{skill}-succ']}')
+#     success_df.loc[skill,topic] = (success_df.loc[skill,topic] == False)
+#     # print(f'switch: {switch}')
 
 def display_wiki(topic,wf,edit=False,session_id=None):
     img_entries = wf[wf.img_path.isna()==False].index.tolist()
@@ -248,6 +262,7 @@ def display_wiki(topic,wf,edit=False,session_id=None):
                                         with button_:
                                             if st.button('Roll',key=f'{attribute}-button-roll'):
                                                 print(f'Rolling {attribute} at {val}. (Would send to Data)')
+                                            
             with st.expander(label='Skills',expanded=True):
                 skills = skill_df.index.tolist()
                 if edit:
@@ -293,8 +308,19 @@ def display_wiki(topic,wf,edit=False,session_id=None):
                                     with button_:
                                         if st.button('Roll',key=f'{skill}-button-roll'):
                                             print(f'Rolling {skill} at {val}. (Would send to Data)')
+                                            # with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                                            #     s.connect((HOST, PORT))
+                                            #     send_string = bytes(str(f'{topic},{skill},{val}'),encoding='utf-8')
+                                            #     s.sendall(send_string)
+                                            #     data = s.recv(1024)
+                                            # print(f"Received {data!r}")
                                     with succ_:
                                         st.checkbox('Succeeded',value=success_df.loc[skill][topic],key=f'{skill}-succ',label_visibility='hidden')
+                                        success_df.loc[skill,topic]=st.session_state[f'{skill}-succ']
+                    if succ_totals[topic]!=success_df[topic].sum():
+                        success_df.to_csv('successes.csv',encoding='utf-8',index=True)
+                        succ_totals[topic]=success_df[topic].sum()
+                        st.rerun()
             with st.expander(label='Biographical',expanded=True):
                 left_,right_=st.columns(2)
                 img_file_name = wf.loc[topic].img_path.split(',')
@@ -378,10 +404,6 @@ def display_wiki(topic,wf,edit=False,session_id=None):
                 if st.button(label='Confirm Delete',type='primary'):
                     wf.drop(topic,axis=0,inplace=True)
                     wf.to_csv('wiki.csv',encoding='utf-8',index=True)
-                    # try:
-                    #     all_topics.remove(topic)
-                    # except ValueError:
-                    #     print('Article removed without being added to all_topics')
                     st.rerun()
             if 'debug' in sys.argv:
                 if st.button(label='Wf flow',key='wf_flow_wiki_view'):
