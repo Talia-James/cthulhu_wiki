@@ -1,49 +1,49 @@
-skill,Honey Charles,Sophie Devaux,Evan Montgomery,Angela PC,Dan Patton
+skill,Honey Charles,Sophie Devaux,Evan Montgomery,Herschel Flynn,Dan Patton
 Accounting,5,5,5,5,5
 Animal Handling,1,1,1,1,1
-Anthropology,39,1,1,1,1
+Anthropology,1,1,1,20,1
 Appraise,5,5,5,5,5
 Archaeology,1,1,1,1,1
-Charm,25,15,15,15,15
+Charm,45,15,15,15,45
 Climb,20,20,20,20,20
-Computer Use,5,1,60,5,5
-Credit Rating,10,10,10,1,1
-Cthulhu Mythos,1,1,1,1,1
-Disguise,5,1,5,5,5
-Dodge,45,60,25,8,8
+Computer Use,5,1,60,40,5
+Credit Rating,10,10,10,10,10
+Cthulhu Mythos,0,1,1,1,0
+Disguise,45,1,5,5,45
+Dodge,32,60,25,68,32
 Drive Auto,20,20,20,20,20
-Electrical Repair,1,10,50,1,1
+Electrical Repair,10,10,50,1,10
 Electronics,1,1,39,1,1
-Fast Talk,50,5,49,5,5
+Fast Talk,45,5,49,5,45
 Brawl,25,70,25,25,25
 Firearms (Small Arms),20,20,20,20,20
 Firearms (Rifle/Shotgun),25,25,25,25,25
 First Aid,30,75,30,30,30
-History,40,5,25,5,5
+History,40,5,25,29,40
 Intimidate,15,15,15,15,15
 Jump,20,20,20,20,20
-English,75,20,72,20,20
-French,25,50,1,1,1
+English,65,20,72,20,65
+French,25,50,1,1,10
 Law,5,5,30,5,5
-Library Use,50,20,55,20,20
-Listen,40,20,20,20,20
+Library Use,40,20,55,20,40
+Listen,30,20,20,65,30
 Locksmith,1,1,61,1,1
 Mechanical Repair,10,10,10,10,10
-Medicine,1,70,1,1,1
+Medicine,1,70,1,25,1
 Natural World,10,10,10,10,10
 Navigate,10,10,10,10,10
-Occult,20,5,35,5,5
+Occult,39,5,35,5,30
 Operate Heavy Machinery,1,1,1,1,1
 Persuade,10,10,10,10,10
 Pilot,1,1,1,1,1
 Psychoanalysis,1,35,1,1,1
-Psychology,50,60,50,10,10
+Psychology,30,60,50,10,30
 Read Lips,1,1,1,1,1
 Ride,5,5,5,5,5
-Sleight of Hand,50,10,10,10,10
-Spot Hidden,34,30,30,25,25
-Stealth,20,20,40,20,20
+Sleight of Hand,10,10,10,30,10
+Spot Hidden,37,30,30,75,33
+Stealth,20,20,40,60,20
 Survival,1,1,1,1,1
-Swim,1,20,1,1,1
+Swim,1,20,1,1,20
 Throw,20,20,20,20,20
 Track,10,10,10,10,10
